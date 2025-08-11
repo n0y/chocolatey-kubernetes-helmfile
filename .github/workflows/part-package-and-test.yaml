@@ -9,7 +9,7 @@ jobs:
       run:
         shell: powershell
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Chocolately version
         run: choco --version
       - name: Install AU
