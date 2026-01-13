@@ -7,7 +7,7 @@ $ChecksumURL = "https://github.com/helmfile/helmfile/releases/download/v${Helmfi
 "Loading Checksums from $ChecksumURL"
 ""
 
-$ChecksumResponse = (Invoke-WebRequest -Uri "$ChecksumURL").tostring()
+$ChecksumResponse = (Invoke-WebRequest -Uri "$ChecksumURL" -UseBasicParsing).tostring()
 $Checksum = (($ChecksumResponse -split "[`r`n]" | Select-String "helmfile_${HelmfileVersion}_windows_386.tar.gz" | select -First 1) -split " ")[0].ToUpper()
 $Checksum64 = (($ChecksumResponse -split "[`r`n]" | Select-String "helmfile_${HelmfileVersion}_windows_amd64.tar.gz" | select -First 1) -split " ")[0].ToUpper()
 
