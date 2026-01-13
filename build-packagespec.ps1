@@ -1,9 +1,13 @@
 $Props = convertfrom-stringdata (get-content versions.properties | Select-String -pattern "^#" -NotMatch)
 $HelmfileVersion = $Props.UPSTREAM_VERSION
+
+$ChecksumURL = "https://github.com/helmfile/helmfile/releases/download/v${HelmfileVersion}/helmfile_${HelmfileVersion}_checksums.txt"
+
 "Building Upstream Version: $HelmfileVersion"
+"Loading Checksums from $ChecksumURL"
 ""
 
-$ChecksumResponse = (Invoke-WebRequest -Uri "https://github.com/helmfile/helmfile/releases/download/v$HelmfileVersion/helmfile_${HelmfileVersion}_checksums.txt").tostring()
+$ChecksumResponse = (Invoke-WebRequest -Uri "$ChecksumURL").tostring()
 $Checksum = (($ChecksumResponse -split "[`r`n]" | Select-String "helmfile_${HelmfileVersion}_windows_386.tar.gz" | select -First 1) -split " ")[0].ToUpper()
 $Checksum64 = (($ChecksumResponse -split "[`r`n]" | Select-String "helmfile_${HelmfileVersion}_windows_amd64.tar.gz" | select -First 1) -split " ")[0].ToUpper()
 
